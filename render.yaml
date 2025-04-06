@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: pokemeat
+    env: python
+    buildCommand: cd frontend && npm install && npm run build
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port 10000
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.13.0"
