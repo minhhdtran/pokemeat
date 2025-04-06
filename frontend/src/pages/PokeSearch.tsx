@@ -34,7 +34,7 @@ const PokeSearch = () => {
           <div className="bg-white/90 shadow rounded-xl p-4 mt-4 text-center">
             <h2 className="text-xl font-semibold">{result.name}</h2>
             <p className="text-lg">
-              Predicted Price: <span className="font-bold">${result.price}</span>
+              Predicted Price: <span className="font-bold">${result.price}/lb</span>
             </p>
           </div>
         )}
