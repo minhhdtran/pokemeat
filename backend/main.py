@@ -1,22 +1,19 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import pandas as pd
 import joblib
 import numpy as np
+import os
 from typing import List
 
 app = FastAPI()
 
-# 💡 Must be full origin, no slashes, no trailing slash
-origins = [
-    "http://localhost:5174",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # ✅ wildcard now allowed
-    allow_credentials=False,  # ✅ must match
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -71,3 +68,7 @@ def closest_match(req: PriceRequest):
             for _, row in closest.iterrows()
         ]
     }
+
+frontend_path = os.path.join(os.path.dirname(__file__), "../frontend/dist")
+if os.path.isdir(frontend_path):
+    app.mount("/", StaticFiles(directory=frontend_path, html=True), name="static")

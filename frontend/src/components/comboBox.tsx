@@ -4,9 +4,8 @@ interface ComboProps {
   onResult?: (result: { name: string; price: number }) => void;
 }
 
-const API = import.meta.env.VITE_API_URL;
-
 export default function ComboBox({ onResult }: ComboProps) {
+  const API_BASE = import.meta.env.VITE_API_URL || '';
   const [pokemonList, setPokemonList] = useState<string[]>([]);
   const [selectedName, setSelectedName] = useState('');
   const [inputValue, setInputValue] = useState('');
@@ -15,7 +14,7 @@ export default function ComboBox({ onResult }: ComboProps) {
   const [focus, setFocus] = useState(false);
 
   useEffect(() => {
-    fetch(`${API}/pokemon-list`)
+    fetch(`${API_BASE}/pokemon-list`)
       .then(res => res.json())
       .then(data => setPokemonList(data))
       .catch(() => setError('Failed to load Pokémon list'));
@@ -28,7 +27,7 @@ export default function ComboBox({ onResult }: ComboProps) {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`${API}/predict-price`, {
+      const res = await fetch(`${API_BASE}/predict-price`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ pokemon_name: selectedName }),

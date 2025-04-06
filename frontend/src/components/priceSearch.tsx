@@ -4,9 +4,8 @@ interface ReverseSearchProps {
   onResults?: (matches: { name: string; predicted_price: number }[]) => void;
 }
 
-const API = import.meta.env.VITE_API_URL;
-
 export default function ReverseSearch({ onResults }: ReverseSearchProps) {
+  const API_BASE = import.meta.env.VITE_API_URL || '';
   const [priceInput, setPriceInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -23,7 +22,7 @@ export default function ReverseSearch({ onResults }: ReverseSearchProps) {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch(`${API}/closest-match`, {
+      const res = await fetch(`${API_BASE}/closest-match`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ target_price: price }),
