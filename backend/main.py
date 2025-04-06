@@ -1,5 +1,5 @@
-from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import pandas as pd
@@ -70,5 +70,6 @@ def closest_match(req: PriceRequest):
     }
 
 frontend_path = os.path.join(os.path.dirname(__file__), "../frontend/dist")
+
 if os.path.isdir(frontend_path):
     app.mount("/", StaticFiles(directory=frontend_path, html=True), name="static")

@@ -15,10 +15,16 @@ export default function ComboBox({ onResult }: ComboProps) {
 
   useEffect(() => {
     fetch(`${API_BASE}/pokemon-list`)
-      .then(res => res.json())
-      .then(data => setPokemonList(data))
+      .then(res => {
+        if (!res.ok) throw new Error("Bad status");
+        return res.json();
+      })
+      .then(data => {
+        setPokemonList(data);
+        setError('');
+      })
       .catch(() => setError('Failed to load Pokémon list'));
-  }, []);
+  }, [API_BASE]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +39,12 @@ export default function ComboBox({ onResult }: ComboProps) {
         body: JSON.stringify({ pokemon_name: selectedName }),
       });
       const data = await res.json();
-      if (onResult && pokemonList.includes(selectedName)) onResult({ name: selectedName, price: data.predicted_price });
+      if (
+        onResult &&
+        pokemonList.some((name) => name.toLowerCase() === selectedName.toLowerCase())
+      )   {
+        onResult({ name: selectedName, price: data.predicted_price });
+      }
     } catch {
       setError('Prediction failed');
     } finally {

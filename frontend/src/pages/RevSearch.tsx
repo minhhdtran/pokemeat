@@ -16,7 +16,7 @@ const RevSearch = () => {
       />
         <button className="absolute top-[2vh] left-[2vw] w-[10vw] rounded-2xl border-white-400 bg-white hover:cursor-pointer" onClick={() => nav('/')}>Back To Home</button>
         <p className="mt-[5vh] text-[5vw] text-white">Type a Price!</p>
-
+      
         <PriceSearch onResults={setResults} />
 
       {results.length > 0 && (
@@ -27,7 +27,7 @@ const RevSearch = () => {
               className="bg-white shadow p-4 rounded-xl flex justify-between items-center"
             >
               <span className="font-medium">{r.name}</span>
-              <span className="text-right">${r.predicted_price.toFixed(2)}</span>
+              <span className="text-right">${r.predicted_price.toFixed(2)}/lb</span>
             </div>
           ))}
         </div>
